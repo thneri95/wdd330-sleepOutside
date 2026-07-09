@@ -8,20 +8,30 @@ export default class ProductDetails {
   }
 
   async init() {
-    // Fetch product details using the data source
-    this.product = await this.dataSource.findProductById(this.productId);
-    
-    // Render the product details to the HTML
-    this.renderProductDetails();
-    
-    // Set up the Add to Cart button event listener
-    document.getElementById('addToCart').addEventListener('click', this.addProductToCart.bind(this));
+    try {
+      this.product = await this.dataSource.findProductById(this.productId);
+      this.renderProductDetails();
+
+      const addToCartButton = document.getElementById('addToCart');
+      if (addToCartButton) {
+        addToCartButton.addEventListener('click', this.addProductToCart.bind(this));
+      }
+    } catch (error) {
+      console.error('Error loading product details:', error);
+      this.renderProductDetails();
+    }
   }
 
   renderProductDetails() {
     const productElement = document.getElementById('product-detail');
-    
-    // Create the product HTML dynamically
+
+    if (!productElement) return;
+
+    if (!this.product) {
+      productElement.innerHTML = '<p>Product not found.</p>';
+      return;
+    }
+
     productElement.innerHTML = `
       <h3>${this.product.Brand.Name}</h3>
       <h2 class="divider">${this.product.NameWithoutBrand}</h2>

@@ -1,4 +1,5 @@
 import { normalizeCartItems } from "../js/product.js";
+import ProductData from "../js/ProductData.mjs";
 
 describe("normalizeCartItems", () => {
   it("returns an empty array when nothing is stored", () => {
@@ -13,5 +14,10 @@ describe("normalizeCartItems", () => {
   it("keeps an existing array unchanged", () => {
     const items = [{ Id: "1" }, { Id: "2" }];
     expect(normalizeCartItems(items)).toEqual(items);
+  });
+
+  it("builds a product data path from the public JSON folder", async () => {
+    const dataSource = new ProductData("tents");
+    expect(dataSource.path).toBe("/json/tents.json");
   });
 });
