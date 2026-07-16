@@ -1,17 +1,24 @@
-import { getLocalStorage, loadHeaderFooter, setLocalStorage, updateCartItemCount } from "./utils.mjs";
+import {
+  getLocalStorage,
+  loadHeaderFooter,
+  setLocalStorage,
+  updateCartItemCount,
+} from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
   const cartList = document.querySelector(".product-list");
 
   if (!cartItems.length) {
-    cartList.innerHTML = "<li class=\"cart-empty\">Your cart is empty.</li>";
+    cartList.innerHTML = '<li class="cart-empty">Your cart is empty.</li>';
     toggleCartFooter(cartItems);
     updateCartItemCount();
     return;
   }
 
-  const htmlItems = cartItems.map((item, index) => cartItemTemplate(item, index));
+  const htmlItems = cartItems.map((item, index) =>
+    cartItemTemplate(item, index),
+  );
   cartList.innerHTML = htmlItems.join("");
 
   addRemoveFromCartListeners();
@@ -56,7 +63,9 @@ function handleRemoveFromCart(event) {
   if (Number.isInteger(removeIndex) && removeIndex >= 0) {
     cartItems.splice(removeIndex, 1);
   } else {
-    const updatedCart = cartItems.filter((item) => String(item.Id) !== String(productId));
+    const updatedCart = cartItems.filter(
+      (item) => String(item.Id) !== String(productId),
+    );
     setLocalStorage("so-cart", updatedCart);
     renderCartContents();
     return;
@@ -80,7 +89,10 @@ function toggleCartFooter(cartItems) {
     return;
   }
 
-  const total = cartItems.reduce((sum, item) => sum + Number(item.FinalPrice || 0), 0);
+  const total = cartItems.reduce(
+    (sum, item) => sum + Number(item.FinalPrice || 0),
+    0,
+  );
   cartTotalElement.textContent = `Total: $${total.toFixed(2)}`;
   cartFooter.classList.remove("hide");
 }

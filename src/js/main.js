@@ -10,11 +10,11 @@ const mainElement = document.querySelector("main");
 const alertList = new Alert("/json/alerts.json", mainElement);
 
 async function init() {
-    await loadHeaderFooter();
-    alertList.init();
+  await loadHeaderFooter();
+  alertList.init();
 
-    const productList = new ProductList("tents", dataSource, listElement);
-    productList.init();
+  const productList = new ProductList("tents", dataSource, listElement);
+  productList.init();
 }
 
 init();
