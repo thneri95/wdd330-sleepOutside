@@ -25,3 +25,8 @@ _BYU-Pathway Worldwide improves lives through access to spiritually based, onlin
 
 
 
+My live portal: 
+https://wdd330-sleepoutside-irxp.onrender.com/index.html
+
+Trello: 
+https://trello.com/b/gzzlRVy9/sleepoutside-t10
