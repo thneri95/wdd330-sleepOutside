@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, updateCartItemCount } from "./utils.mjs";
+import { getLocalStorage, loadHeaderFooter, setLocalStorage, updateCartItemCount } from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
@@ -85,4 +85,9 @@ function toggleCartFooter(cartItems) {
   cartFooter.classList.remove("hide");
 }
 
-renderCartContents();
+async function init() {
+  await loadHeaderFooter();
+  renderCartContents();
+}
+
+init();
