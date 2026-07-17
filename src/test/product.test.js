@@ -16,8 +16,9 @@ describe("normalizeCartItems", () => {
     expect(normalizeCartItems(items)).toEqual(items);
   });
 
-  it("builds a product data path from the public JSON folder", async () => {
-    const dataSource = new ProductData("tents");
-    expect(dataSource.path).toBe("/json/tents.json");
+  it("creates a product data source with api methods", () => {
+    const dataSource = new ProductData();
+    expect(typeof dataSource.getData).toBe("function");
+    expect(typeof dataSource.findProductById).toBe("function");
   });
 });
