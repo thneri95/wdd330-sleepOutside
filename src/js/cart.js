@@ -10,7 +10,7 @@ function renderCartContents() {
   const cartList = document.querySelector(".product-list");
 
   if (!cartItems.length) {
-    cartList.innerHTML = '<li class="cart-empty">Your cart is empty.</li>';
+    cartList.innerHTML = "<li class=\"cart-empty\">Your cart is empty.</li>";
     toggleCartFooter(cartItems);
     updateCartItemCount();
     return;
@@ -28,19 +28,22 @@ function renderCartContents() {
 
 function cartItemTemplate(item, index) {
   const productUrl = `/product_pages/?product=${item.Id}`;
+  const productImage =
+    item.Images?.PrimarySmall || item.Images?.PrimaryMedium || item.Image || "";
+  const colorName = item.Colors?.[0]?.ColorName || "";
 
   const newItem = `<li class="cart-card divider">
   <button class="cart-card__remove" data-id="${item.Id}" data-index="${index}" aria-label="Remove ${item.Name} from cart">X</button>
   <a href="${productUrl}" class="cart-card__image" aria-label="View ${item.Name}">
     <img
-      src="${item.Image}"
+      src="${productImage}"
       alt="${item.Name}"
     />
   </a>
   <a href="${productUrl}" aria-label="View ${item.Name}">
     <h2 class="card__name">${item.Name}</h2>
   </a>
-  <p class="cart-card__color">${item.Colors[0].ColorName}</p>
+  <p class="cart-card__color">${colorName}</p>
   <p class="cart-card__quantity">qty: 1</p>
   <p class="cart-card__price">$${item.FinalPrice}</p>
 </li>`;
