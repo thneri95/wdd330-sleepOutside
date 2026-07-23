@@ -1,4 +1,4 @@
-import ProductData from "./ProductData.mjs";
+import ExternalServices from "./ExternalServices.mjs";
 import ProductList from "./ProductList.mjs";
 import { getParam, loadHeaderFooter } from "./utils.mjs";
 
@@ -18,7 +18,7 @@ async function init() {
     titleElement.textContent = `Top Products: ${formatCategoryTitle(category)}`;
   }
 
-  const dataSource = new ProductData();
+  const dataSource = new ExternalServices();
   const listElement = document.querySelector(".product-list");
   const productList = new ProductList(category, dataSource, listElement);
   await productList.init();

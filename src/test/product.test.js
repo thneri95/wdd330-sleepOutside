@@ -1,5 +1,5 @@
 import { normalizeCartItems } from "../js/product.js";
-import ProductData from "../js/ProductData.mjs";
+import ExternalServices from "../js/ExternalServices.mjs";
 
 describe("normalizeCartItems", () => {
   it("returns an empty array when nothing is stored", () => {
@@ -17,7 +17,7 @@ describe("normalizeCartItems", () => {
   });
 
   it("creates a product data source with api methods", () => {
-    const dataSource = new ProductData();
+    const dataSource = new ExternalServices();
     expect(typeof dataSource.getData).toBe("function");
     expect(typeof dataSource.findProductById).toBe("function");
   });

@@ -5,8 +5,15 @@ import {
   updateCartItemCount,
 } from "./utils.mjs";
 
+function normalizeCartItems(items) {
+  if (Array.isArray(items)) {
+    return items;
+  }
+  return items ? [items] : [];
+}
+
 function renderCartContents() {
-  const cartItems = getLocalStorage("so-cart") || [];
+  const cartItems = normalizeCartItems(getLocalStorage("so-cart"));
   const cartList = document.querySelector(".product-list");
 
   if (!cartItems.length) {
@@ -61,7 +68,7 @@ function addRemoveFromCartListeners() {
 function handleRemoveFromCart(event) {
   const productId = event.currentTarget.dataset.id;
   const removeIndex = Number(event.currentTarget.dataset.index);
-  const cartItems = getLocalStorage("so-cart") || [];
+  const cartItems = normalizeCartItems(getLocalStorage("so-cart"));
 
   if (Number.isInteger(removeIndex) && removeIndex >= 0) {
     cartItems.splice(removeIndex, 1);

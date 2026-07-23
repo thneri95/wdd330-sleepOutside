@@ -1,5 +1,5 @@
 import { getParam, loadHeaderFooter, updateCartItemCount } from "./utils.mjs";
-import ProductData from "./ProductData.mjs";
+import ExternalServices from "./ExternalServices.mjs";
 import ProductDetails from "./ProductDetails.mjs";
 
 export function normalizeCartItems(items) {
@@ -11,7 +11,7 @@ export function normalizeCartItems(items) {
 }
 
 const productId = getParam("product");
-const dataSource = new ProductData();
+const dataSource = new ExternalServices();
 
 async function init() {
   await loadHeaderFooter();
