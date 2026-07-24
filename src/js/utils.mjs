@@ -98,3 +98,57 @@ export async function loadHeaderFooter() {
   renderWithTemplate(headerTemplate, headerElement, null, updateCartItemCount);
   renderWithTemplate(footerTemplate, footerElement);
 }
+
+export function alertMessage(message, scroll = true) {
+  const main = qs("main");
+  if (!main || !message) {
+    return;
+  }
+
+  const previousAlert = qs(".alert", main);
+  if (previousAlert) {
+    previousAlert.remove();
+  }
+
+  const alert = document.createElement("div");
+  alert.classList.add("alert");
+  alert.setAttribute("role", "alert");
+
+  const closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.classList.add("alert-close");
+  closeButton.setAttribute("aria-label", "Dismiss message");
+  closeButton.textContent = "X";
+
+  const content = document.createElement("div");
+  content.classList.add("alert-content");
+
+  if (Array.isArray(message)) {
+    const list = document.createElement("ul");
+    message.forEach((entry) => {
+      const item = document.createElement("li");
+      item.textContent = entry;
+      list.appendChild(item);
+    });
+    content.appendChild(list);
+  } else {
+    const text = document.createElement("p");
+    text.textContent = message;
+    content.appendChild(text);
+  }
+
+  alert.appendChild(content);
+  alert.appendChild(closeButton);
+
+  alert.addEventListener("click", (event) => {
+    if (event.target === closeButton) {
+      main.removeChild(alert);
+    }
+  });
+
+  main.prepend(alert);
+
+  if (scroll) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}

@@ -1,5 +1,5 @@
 import ExternalServices from "./ExternalServices.mjs";
-import { getLocalStorage } from "./utils.mjs";
+import { alertMessage, getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 function packageItems(items) {
   return items.map((item) => ({
@@ -8,6 +8,40 @@ function packageItems(items) {
     price: Number(item.FinalPrice || 0),
     quantity: Number(item.quantity || 1),
   }));
+}
+
+function getErrorMessages(error) {
+  if (error?.name === "servicesError") {
+    const details = error.message;
+
+    if (Array.isArray(details)) {
+      return details.map(String);
+    }
+
+    if (typeof details === "string") {
+      return [details];
+    }
+
+    if (details && typeof details === "object") {
+      if (typeof details.message === "string") {
+        return [details.message];
+      }
+
+      return Object.values(details).flatMap((value) => {
+        if (Array.isArray(value)) {
+          return value.map(String);
+        }
+
+        if (typeof value === "string" || typeof value === "number") {
+          return [String(value)];
+        }
+
+        return [];
+      });
+    }
+  }
+
+  return ["Sorry, your order could not be submitted. Please check your details and try again."];
 }
 
 export default class CheckoutProcess {
@@ -72,6 +106,11 @@ export default class CheckoutProcess {
   }
 
   async checkout(form) {
+    if (!this.list.length) {
+      alertMessage("Your cart is empty. Add at least one item before checking out.");
+      return null;
+    }
+
     const formData = new FormData(form);
     const order = Object.fromEntries(formData.entries());
     order.orderDate = new Date().toISOString();
@@ -80,6 +119,15 @@ export default class CheckoutProcess {
     order.shipping = this.shipping;
     order.tax = this.tax.toFixed(2);
 
-    return this.services.checkout(order);
+    try {
+      const response = await this.services.checkout(order);
+      setLocalStorage(this.key, []);
+      window.location.assign("/checkout/success.html");
+      return response;
+    } catch (error) {
+      const messages = getErrorMessages(error);
+      alertMessage(messages);
+      return null;
+    }
   }
 }

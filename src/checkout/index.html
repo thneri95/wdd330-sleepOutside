@@ -19,38 +19,43 @@
     <section class="products-section checkout">
       <h2>Review & Place your Order</h2>
       <div class="checkout-grid">
-        <form id="checkout-form" name="checkout" novalidate>
+        <form id="checkout-form" name="checkout">
           <fieldset>
             <legend>Customer Name</legend>
             <label for="fname">First Name</label>
-            <input id="fname" name="fname" type="text" required />
+            <input id="fname" name="fname" type="text" autocomplete="given-name" minlength="2" required />
             <label for="lname">Last Name</label>
-            <input id="lname" name="lname" type="text" required />
+            <input id="lname" name="lname" type="text" autocomplete="family-name" minlength="2" required />
           </fieldset>
 
           <fieldset>
             <legend>Address</legend>
             <label for="street">Street Address</label>
-            <input id="street" name="street" type="text" required />
+            <input id="street" name="street" type="text" autocomplete="address-line1" minlength="5" required />
             <label for="city">City</label>
-            <input id="city" name="city" type="text" required />
+            <input id="city" name="city" type="text" autocomplete="address-level2" minlength="2" required />
             <label for="state">State</label>
-            <input id="state" name="state" type="text" required />
+            <input id="state" name="state" type="text" autocomplete="address-level1" minlength="2" maxlength="2"
+              pattern="[A-Za-z]{2}" title="Use a 2-letter state code" required />
             <label for="zip">Zip Code</label>
-            <input id="zip" name="zip" type="text" inputmode="numeric" required />
+            <input id="zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" minlength="5"
+              maxlength="5" pattern="\d{5}" title="Use a 5-digit ZIP code" required />
           </fieldset>
 
           <fieldset>
             <legend>Payment</legend>
             <label for="cardNumber">Credit Card Number</label>
-            <input id="cardNumber" name="cardNumber" type="text" inputmode="numeric" required />
+            <input id="cardNumber" name="cardNumber" type="text" inputmode="numeric" autocomplete="cc-number"
+              minlength="13" maxlength="19" pattern="\d{13,19}" title="Use 13 to 19 digits with no spaces" required />
             <label for="expiration">Expiration Date</label>
-            <input id="expiration" name="expiration" type="text" placeholder="MM/YY" required />
+            <input id="expiration" name="expiration" type="text" placeholder="MM/YY" autocomplete="cc-exp"
+              pattern="(0[1-9]|1[0-2])\/\d{2}" title="Use MM/YY format" required />
             <label for="code">Security Code</label>
-            <input id="code" name="code" type="text" inputmode="numeric" required />
+            <input id="code" name="code" type="text" inputmode="numeric" autocomplete="cc-csc" minlength="3"
+              maxlength="4" pattern="\d{3,4}" title="Use a 3 or 4 digit security code" required />
           </fieldset>
 
-          <button type="submit">Checkout</button>
+          <button id="checkoutSubmit" type="submit">Checkout</button>
           <p id="checkout-message" aria-live="polite"></p>
         </form>
 

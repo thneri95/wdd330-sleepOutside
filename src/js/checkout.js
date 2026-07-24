@@ -17,20 +17,23 @@ async function init() {
   }
 
   const form = document.querySelector("#checkout-form");
-  const message = document.querySelector("#checkout-message");
   if (form) {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (!form.checkValidity()) {
+      const isValid = form.checkValidity();
+      form.reportValidity();
+
+      if (!isValid) {
+        return;
+      }
+
+      if (!zipInput?.value.trim()) {
         form.reportValidity();
         return;
       }
 
       checkout.calculateOrderTotal();
-      const response = await checkout.checkout(form);
-      if (message) {
-        message.textContent = response.message || "Order submitted successfully.";
-      }
+      await checkout.checkout(form);
     });
   }
 }

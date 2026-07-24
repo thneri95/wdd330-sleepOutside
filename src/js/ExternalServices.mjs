@@ -1,12 +1,16 @@
 const baseURL = import.meta.env.VITE_SERVER_URL;
 const checkoutURL = "http://wdd330-backend.onrender.com/checkout";
 
-function convertToJson(res) {
+async function convertToJson(res) {
+  const jsonResponse = await res.json().catch(() => ({
+    message: res.statusText || "Bad Response",
+  }));
+
   if (res.ok) {
-    return res.json();
+    return jsonResponse;
   }
 
-  throw new Error("Bad Response");
+  throw { name: "servicesError", message: jsonResponse };
 }
 
 export default class ExternalServices {

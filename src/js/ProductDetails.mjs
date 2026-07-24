@@ -1,4 +1,5 @@
 import {
+  alertMessage,
   setLocalStorage,
   getLocalStorage,
   updateCartItemCount,
@@ -70,5 +71,6 @@ export default class ProductDetails {
     cartItems.push(this.product);
     setLocalStorage("so-cart", cartItems);
     updateCartItemCount();
+    alertMessage(`${this.product.Name} was added to your cart.`, false);
   }
 }
